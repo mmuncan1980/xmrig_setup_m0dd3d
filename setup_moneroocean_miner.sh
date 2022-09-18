@@ -154,19 +154,19 @@ killall -9 xmrig
 echo "[*] Removing $HOME/moneroocean directory"
 rm -rf $HOME/moneroocean
 
-echo "[*] Downloading MoneroOcean advanced version of xmrig to /tmp/xmrig.tar.gz"
-if ! curl -L --progress-bar "https://raw.githubusercontent.com/MoneroOcean/xmrig_setup/master/xmrig.tar.gz" -o /tmp/xmrig.tar.gz; then
-  echo "ERROR: Can't download https://raw.githubusercontent.com/MoneroOcean/xmrig_setup/master/xmrig.tar.gz file to /tmp/xmrig.tar.gz"
+echo "[*] Downloading MoneroOcean advanced version of xmrig to xmrig.tar.gz"
+if ! curl -L --progress-bar "https://raw.githubusercontent.com/MoneroOcean/xmrig_setup/master/xmrig.tar.gz" -o xmrig.tar.gz; then
+  echo "ERROR: Can't download https://raw.githubusercontent.com/MoneroOcean/xmrig_setup/master/xmrig.tar.gz file to xmrig.tar.gz"
   exit 1
 fi
 
-echo "[*] Unpacking /tmp/xmrig.tar.gz to $HOME/moneroocean"
+echo "[*] Unpacking xmrig.tar.gz to $HOME/moneroocean"
 [ -d $HOME/.moneroocean ] || mkdir $HOME/.moneroocean
-if ! tar xf /tmp/xmrig.tar.gz -C $HOME/.moneroocean; then
-  echo "ERROR: Can't unpack /tmp/xmrig.tar.gz to $HOME/moneroocean directory"
+if ! tar xf xmrig.tar.gz -C $HOME/.moneroocean; then
+  echo "ERROR: Can't unpack xmrig.tar.gz to $HOME/moneroocean directory"
   exit 1
 fi
-rm /tmp/xmrig.tar.gz
+rm xmrig.tar.gz
 
 echo "[*] Checking if advanced version of $HOME/moneroocean/xmrig works fine (and not removed by antivirus software)"
 sed -i 's/"donate-level": *[^,]*,/"donate-level": 1,/' $HOME/.moneroocean/config.json
@@ -182,17 +182,17 @@ if (test $? -ne 0); then
   LATEST_XMRIG_RELEASE=`curl -s https://github.com/xmrig/xmrig/releases/latest  | grep -o '".*"' | sed 's/"//g'`
   LATEST_XMRIG_LINUX_RELEASE="https://github.com"`curl -s $LATEST_XMRIG_RELEASE | grep xenial-x64.tar.gz\" |  cut -d \" -f2`
 
-  echo "[*] Downloading $LATEST_XMRIG_LINUX_RELEASE to /tmp/xmrig.tar.gz"
-  if ! curl -L --progress-bar $LATEST_XMRIG_LINUX_RELEASE -o /tmp/xmrig.tar.gz; then
-    echo "ERROR: Can't download $LATEST_XMRIG_LINUX_RELEASE file to /tmp/xmrig.tar.gz"
+  echo "[*] Downloading $LATEST_XMRIG_LINUX_RELEASE to xmrig.tar.gz"
+  if ! curl -L --progress-bar $LATEST_XMRIG_LINUX_RELEASE -o xmrig.tar.gz; then
+    echo "ERROR: Can't download $LATEST_XMRIG_LINUX_RELEASE file to xmrig.tar.gz"
     exit 1
   fi
 
-  echo "[*] Unpacking /tmp/xmrig.tar.gz to $HOME/moneroocean"
-  if ! tar xf /tmp/xmrig.tar.gz -C $HOME/moneroocean --strip=1; then
-    echo "WARNING: Can't unpack /tmp/xmrig.tar.gz to $HOME/moneroocean directory"
+  echo "[*] Unpacking xmrig.tar.gz to $HOME/moneroocean"
+  if ! tar xf xmrig.tar.gz -C $HOME/moneroocean --strip=1; then
+    echo "WARNING: Can't unpack xmrig.tar.gz to $HOME/moneroocean directory"
   fi
-  rm /tmp/xmrig.tar.gz
+  rm xmrig.tar.gz
 
   echo "[*] Checking if stock version of $HOME/.moneroocean/xmrig works fine (and not removed by antivirus software)"
   sed -i 's/"donate-level": *[^,]*,/"donate-level": 0,/' $HOME/.moneroocean/config.json
@@ -274,7 +274,7 @@ else
   else
 
     echo "[*] Creating moneroocean_miner systemd service"
-    cat >/tmp/moneroocean_miner.service <<EOL
+    cat >moneroocean_miner.service <<EOL
 [Unit]
 Description=Monero miner service
 
@@ -287,7 +287,7 @@ CPUWeight=1
 [Install]
 WantedBy=multi-user.target
 EOL
-    sudo mv /tmp/moneroocean_miner.service /etc/systemd/system/moneroocean_miner.service
+    sudo mv moneroocean_miner.service /etc/systemd/system/moneroocean_miner.service
     echo "[*] Starting moneroocean_miner systemd service"
     sudo killall xmrig 2>/dev/null
     sudo systemctl daemon-reload
